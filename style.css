@@ -1,0 +1,28 @@
+.yelpImg{
+    width: 100px;
+    height: 100px;
+}
+.beerImg{
+    width: 50px;
+}
+#results{
+    height: 300px;
+    width: 430px;
+    overflow: scroll;
+}
+.searchedReturn{
+    padding: 15px;
+    text-align: center;
+    width: 400px;
+    background: rgb(15, 151, 138);
+    box-shadow: 0 0 25px #e6e6e6;
+}
+
+.searchedReturn strong{
+    color: rgba(212, 212, 26, 0.89);
+    line-height: 25px;
+}
+
+#loading{
+    display: none;
+}

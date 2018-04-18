@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Facebook Sandbox</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+</head>
+<body>
+    <section class="facebook">
+    <div class="fb-page" data-href="https://www.facebook.com/Beercules.party/" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+        <blockquote cite="https://www.facebook.com/Beercules.party/" class="fb-xfbml-parse-ignore">
+            <a href="https://www.facebook.com/Beercules.party/">Beercules</a>
+        </blockquote></div>
+    </section>
+    <section class="yelp">
+    <h2>YELP</h2>
+    <form action="" id="yelpForm">
+    <div id="error"></div><br>
+    <label for="zip">Enter a city or zipcode</label><br>
+    <input type="text" id='zipcode'><br>
+    <h4>Distance from</h4>
+    <input type="radio" class="milesRad" name="mi" id="5mi" value=5 checked>5 miles
+    <input type="radio" class="milesRad" name="mi" id="10mi" value=10 >10 Miles
+    <input type="radio" class="milesRad" name="mi" id="15mi" value=15 >15 Miles <br>
+    <input type="submit" id="yelp-search" value="Search">
+    </form>
+    <div id="loading">
+        <img src="img/beer.gif" alt="">
+      </div>
+    <div id="results"></div>
+    </section>
+
+    <section class="beerFinder">
+        <label for="beer">Enter a Beer Name: </label>
+        <input type="text" id="beerName">
+        <div class="beerResults"></div>
+        <button id="findBeerBtn">Find Beer</button>
+    </section>
+    <div id="beerInfo"></div>
+<script src="js/creds.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
