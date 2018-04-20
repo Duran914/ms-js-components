@@ -27,6 +27,7 @@ myHeaders.append("Authorization", "Bearer " + yelpApiKey);
 
 
 searchZipBtn.addEventListener('submit', (e) => {
+  // will migrate css in dedicated css file in actual project
   if (document.querySelector('#zipcode').value === '') {
    document.querySelector('#error').style.display = 'block';
     document.querySelector('#error').style.backgroundColor = 'red';
@@ -38,14 +39,13 @@ searchZipBtn.addEventListener('submit', (e) => {
   document.querySelector('#error').style.display = "none";
    document.querySelector('#loading').style.display = 'block';
     document.querySelector('#results').innerHTML = '';
-    queryResults();
-
+     queryBrewsResults();
   }
 e.preventDefault();
 });
 
 
-function queryResults(e) {
+function queryBrewsResults(e) {
    
 const zipCode = document.querySelector('#zipcode').value;
 const radius = document.querySelector('input[name="mi"]:checked').value * 1609.344; //convert miles to metters
@@ -60,6 +60,11 @@ fetch(`https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/se
         //  console.log(data);
          let brews = data.businesses;
          let output = '';
+         if (!brews) {
+          document.querySelector('#error').style.display = "block";
+          document.querySelector('#error').innerHTML = "No beer found!";
+          document.querySelector('#loading').style.display = 'none';
+         } else{
        for (let i = 0; i < brews.length; i++) {
          output += `<div class="searchedReturn">
          <img class="yelpImg" src='${brews[i].image_url}'><br>
@@ -78,32 +83,9 @@ fetch(`https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/se
         document.querySelector('#results').innerHTML = output;
       //  searchReturn(data);
        clearFields(zipCode);
+      }
     })
-    .catch(err => console.log(err));
-    // e.preventDefault();
 }
-
-// searchReturn = (data, zipCode) =>{
-  
-//   let brews = data.businesses;
-//   let output = '';
-// for (let i = 0; i < brews.length; i++) {
-//   output += `<div class="searchedReturn">
-//   <img class="yelpImg" src='${brews[i].image_url}'><br>
-//   <strong>Brewery Name:</strong> ${brews[i].name}<br>
-//   <strong>Location:</strong> ${brews[i].location.address1}, ${brews[i].location.city} ${brews[i].location.state}<br>
-//   <strong>Phone Number:</strong> ${brews[i].phone}<br>
-//   <strong>Price Range:</strong> ${brews[i].price}<br>
-//   <strong>Rating:</strong> ${brews[i].rating}/5<br>
-//   <strong>View on Yelp:</strong> <a href="${brews[i].url}">Click Me!</a><br>
-//   </div><br>
-//   `;
-//   }
-//   document.querySelector('#error').style.display = 'none';
-//   document.querySelector('#loading').style.display = 'none';
-//    document.querySelector('#results').innerHTML = output;
-//    clearFields(zipCode);
-// }
 
 clearFields = (zipCode) => {
   zipCode = '';
@@ -114,7 +96,22 @@ clearFields = (zipCode) => {
   BEER component
 *****************/
 
-document.querySelector('#findBeerBtn').addEventListener('click', () => {
+document.querySelector('#findBeerBtn').addEventListener('click', (e) => {
+  if (document.querySelector('#beerName').value === '') {
+    // will migrate css in dedicated css file in actual project
+    document.querySelector('#beerError').style.display = 'block';
+     document.querySelector('#beerError').style.backgroundColor = 'red';
+      document.querySelector('#beerError').style.width = '200px';
+       document.querySelector('#beerError').style.padding = '5px';
+        document.querySelector('#beerError').style.color = 'white';
+         document.querySelector('#beerError').innerHTML = "Please enter a beer name";
+   }else{
+   document.querySelector('#beerError').style.display = "none";
+     queryBeerResults();
+   }
+ e.preventDefault();
+});
+function queryBeerResults(e) {
   const beerName = document.querySelector('#beerName').value;
   fetch(`https://api.punkapi.com/v2/beers?beer_name=${beerName}`)
     .then((res) => {
@@ -122,22 +119,24 @@ document.querySelector('#findBeerBtn').addEventListener('click', () => {
      })
      .then((beerinfo) => {
          console.log(beerinfo);
+         if (beerinfo.length === 0) {
+          document.querySelector('#beerError').style.display = "block";
+          document.querySelector('#beerError').innerHTML = "No beer found!";
+         } else{
          let beerOutput = '';
          for (let i = 0; i < beerinfo.length; i++) {
            beerOutput += `<div class="searchedBeerReturn">
            <img class="beerImg" src='${beerinfo[i].image_url}'><br>
-           <strong>Beer Name <i class="fas fa-beer"></i>:</strong> ${beerinfo[i].name}<br>
-           <strong>Description:</strong> <i class="fas fa-map-marker"></i> ${beerinfo[i].description}<br>
-           <strong>Alcohol by volume:</strong> <i class="fas fa-phone"></i> ${beerinfo[i].abv}<br>
-           <strong>Food Pairing:</strong> <i class="far fa-credit-card"></i>
-           <ul>
-            <li>${beerinfo[i].food_pairing}</li>
-            </ul><br>
-           <strong>IBU level:</strong> <i class="fas fa-star"></i> ${beerinfo[i].ibu}<br>
-           <strong>Hops:</strong> <i class="fab fa-yelp"></i>${beerinfo[i].ingredients.hops[i].name}<br>
+           <strong>Beer Name:</strong> ${beerinfo[i].name}<br>
+           <strong>Description:</strong>${beerinfo[i].description}<br>
+           <strong>Alcohol by volume:</strong> ${beerinfo[i].abv}v<br>
+           <strong>Food Pairing:</strong> ${beerinfo[i].food_pairing[i]}<br>
+           <strong>IBU level:</strong> ${beerinfo[i].ibu}<br>
+           <strong>Hops:</strong> ${beerinfo[i].ingredients.hops[i].name}<br>
            </div><br>
            `;
          }
          document.querySelector('#beerInfo').innerHTML = beerOutput;
-     })
-  });
+        }
+     });
+    }
